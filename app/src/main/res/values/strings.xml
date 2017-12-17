@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WIFIScan</string>
+    <string name="print_scan">PrintScan</string>
+    <string name="close">Close</string>
+</resources>
