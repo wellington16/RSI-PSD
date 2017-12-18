@@ -26,19 +26,12 @@ public class PrintScan extends AppCompatActivity{
     BroadcastReceiver mWifiScanReceiver;
     public boolean wasConnected;
 
-    TextView ssidView= (TextView) findViewById(R.id.ssid);
-    TextView rssiView= (TextView) findViewById(R.id.rssi);
-    TextView bssidView= (TextView) findViewById(R.id.bssid);
-    String ssidString="";
-    String bssidString="";
-    String rssiString="";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print_scan);
 
-        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wasConnected = wifi.isWifiEnabled();
         if (!wasConnected) wifi.setWifiEnabled(true);
 
@@ -47,7 +40,7 @@ public class PrintScan extends AppCompatActivity{
 
     public void scanAndShow(){
 
-        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
         final ArrayList<String> SSID = new ArrayList<String>();
         final ArrayList<Integer> RSSI = new ArrayList<Integer>();
@@ -56,6 +49,14 @@ public class PrintScan extends AppCompatActivity{
         mWifiScanReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context c, Intent intent) {
+                String ssidString="";
+                String bssidString="";
+                String rssiString="";
+
+                TextView ssidView= findViewById(R.id.ssid);
+                TextView rssiView= findViewById(R.id.rssi);
+                TextView bssidView=  findViewById(R.id.bssid);
+
                 if (intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
                     List<ScanResult> mScanResults = wifi.getScanResults();
 
