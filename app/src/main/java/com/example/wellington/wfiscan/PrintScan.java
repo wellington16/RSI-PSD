@@ -26,6 +26,13 @@ public class PrintScan extends AppCompatActivity{
     BroadcastReceiver mWifiScanReceiver;
     public boolean wasConnected;
 
+    TextView ssidView= (TextView) findViewById(R.id.ssid);
+    TextView rssiView= (TextView) findViewById(R.id.rssi);
+    TextView bssidView= (TextView) findViewById(R.id.bssid);
+    String ssidString="";
+    String bssidString="";
+    String rssiString="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,16 +64,11 @@ public class PrintScan extends AppCompatActivity{
                         RSSI.add(mScanResults.get(i).level);
                         BSSID.add(mScanResults.get(i).BSSID);
                     }
-                    TextView ssidView= (TextView) findViewById(R.id.ssid);
-                    TextView rssiView= (TextView) findViewById(R.id.rssi);
-                    TextView bssidView= (TextView) findViewById(R.id.bssid);
-                    String ssidString="";
-                    String bssidString="";
-                    String rssiString="";
+
                     for (int i=0;i<SSID.size();i++){
-                        ssidString=ssidString+"\n"+SSID.get(i);
-                        bssidString=bssidString+"\n"+BSSID.get(i);
-                        rssiString=rssiString+"\n"+RSSI.get(i);
+                        ssidString = ssidString+"\n"+SSID.get(i);
+                        bssidString = bssidString+"\n"+BSSID.get(i);
+                        rssiString = rssiString+"\n"+RSSI.get(i);
                     }
                     ssidView.setText(ssidString);
                     rssiView.setText(rssiString);
