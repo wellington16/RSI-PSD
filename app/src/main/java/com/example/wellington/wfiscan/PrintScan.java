@@ -1,15 +1,11 @@
 package com.example.wellington.wfiscan;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
-import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,11 +13,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class PrintScan extends AppCompatActivity{
 
@@ -75,6 +71,7 @@ public class PrintScan extends AppCompatActivity{
                     ssidView.setText(ssidString);
                     rssiView.setText(rssiString);
                     bssidView.setText(bssidString);
+                    tratamento(ssidString, rssiString);
                 }
             }
         };
@@ -87,6 +84,48 @@ public class PrintScan extends AppCompatActivity{
     public void refreshButton(View view) {
         unregisterReceiver(mWifiScanReceiver);
         scanAndShow();
+    }
+
+    protected void tratamento(String redes, String rssids){
+        String[] listRedes = redes.split("\n",-1);
+        String[] rssidsSeparados= rssids.split("\n");
+        ArrayList<Integer> listRssids = new ArrayList<Integer>();
+
+//        for(String number : rssidsSeparados) {
+//            numberList.add(Integer.parseInt(number));
+//        }
+        for(int rssidx = 1; rssidx < rssidsSeparados.length;rssidx ++){
+            listRssids.add(Integer.parseInt(rssidsSeparados[rssidx]));
+//            System.out.println(listRssids.get(rssidx));
+        }
+        Collections.reverse(listRssids);
+        System.out.println(listRssids);
+        int contadoSeEncontrou = 0;
+        for (int i = 1; i < listRedes.length; i++) {
+//            Integer.parseInt(listRedes[i]);
+
+            if (listRedes[i].equals("Macaco")) {
+                chamaTelaMacaco(listRedes[i]);
+                break;
+            }
+            contadoSeEncontrou += 1;
+            if (contadoSeEncontrou == listRedes.length-1) {
+                Toast.makeText(this, "Não consegui encontrar nenhum animal. :(", Toast.LENGTH_SHORT).show();
+                Intent voltar = new Intent(this, MainActivity.class);
+                startActivity(voltar);
+                finish();
+            }
+
+        }
+    }
+
+    protected void chamaTelaMacaco(String ssdid){
+        String redeTeste = "Macaco";
+        if (ssdid.equals(redeTeste)){
+            Intent macaco =  new Intent(this,TelaMacacoActivity.class);
+            startActivity(macaco);
+            finish();
+        }
     }
 
     @Override
