@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PrintScan extends AppCompatActivity{
+public class Resultados extends AppCompatActivity{
 
     private static final String TAG = "PrintActivity";
     public WifiManager wifi;
@@ -46,8 +46,6 @@ public class PrintScan extends AppCompatActivity{
 
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
-
-
         mWifiScanReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context c, Intent intent) {
@@ -66,17 +64,12 @@ public class PrintScan extends AppCompatActivity{
                         SSID.add(mScanResults.get(i).SSID);
                         RSSI.add(mScanResults.get(i).level);
                         BSSID.add(mScanResults.get(i).BSSID);
-//                        System.out.println(SSID.get(i).toString());
-//                        System.out.println(BSSID.get(i).toString());
-//                        System.out.println(RSSI.get(i).toString());
-
                     }
 
                     for (int i=0;i<SSID.size();i++){
                         ssidString = ssidString+"\n"+SSID.get(i);
                         bssidString = bssidString+"\n"+BSSID.get(i);
                         rssiString = rssiString+"\n"+RSSI.get(i);
-
                     }
                     ssidView.setText(ssidString);
                     rssiView.setText(rssiString);
@@ -84,13 +77,8 @@ public class PrintScan extends AppCompatActivity{
                     RSSIOriginal.addAll(RSSI);
                     Collections.sort(RSSI);
                     String animalDoTopo = RSSI.get(RSSI.size()-1).toString();
-//                    System.out.println(animalDoTopo);
                     indexEncontrarAnimal = potenciaEncontrada(animalDoTopo);
                     encontrarAnimal(indexEncontrarAnimal);
-//                    System.out.println(indexEncontrarAnimal);
-                    System.out.println(RSSI);
-                    System.out.println(SSID);
-//                  tratamento(ssidString, rssiString);
                 }
             }
         };
@@ -105,9 +93,6 @@ public class PrintScan extends AppCompatActivity{
         for (int i =0; i < RSSI.size();i++){
             if(RSSIOriginal.get(i).toString().equals(animalDoTopo)){
                 indexAnimal += i;
-//                System.out.println(RSSIOriginal.get(i));
-//                System.out.println(indexAnimal);
-//                System.out.println(animalDoTopo);
                 return indexAnimal;
             }
         }
@@ -120,7 +105,6 @@ public class PrintScan extends AppCompatActivity{
     }
     protected void encontrarAnimal(int indexEncontrarAnimal){
         String animal = SSID.get(indexEncontrarAnimal);
-//        System.out.println(animal);
         try {
             chamarTelas(animal);
         }catch (Exception erro){
@@ -131,47 +115,26 @@ public class PrintScan extends AppCompatActivity{
         }
     }
 
-//    protected void tratamento(String redes, String rssids){
-//        String[] listRedes = redes.split("\n",-1);
-//        String[] rssidsSeparados= rssids.split("\n");
-//        ArrayList<Integer> listRssids = new ArrayList<Integer>();
-//
-//        for(int rssidx = 1; rssidx < rssidsSeparados.length;rssidx ++){
-//            listRssids.add(Integer.parseInt(rssidsSeparados[rssidx]));
-////            System.out.println(listRssids.get(rssidx));
-//        }
-//        Collections.reverse(listRssids);
-//        System.out.println(listRssids);
-//        int contadoSeEncontrou = 0;
-//        for (int i = 1; i < listRedes.length; i++) {
-//            if (listRedes[i].equals("Macaco")) {
-//                chamarTelas(listRedes[i]);
-//                break;
-//            }
-//            contadoSeEncontrou += 1;
-//            if (contadoSeEncontrou == listRedes.length-1) {
-//                Toast.makeText(this, "Não consegui encontrar nenhum animal. :(", Toast.LENGTH_SHORT).show();
-//                Intent voltar = new Intent(this, MainActivity.class);
-//                startActivity(voltar);
-//                finish();
-//            }
-//
-//        }
-//    }
-
     protected void chamarTelas(String ssid){
         System.out.println(ssid);
         final ArrayList<String> ANIMAIS = new ArrayList<String>(){{
             add("Macaco");
             add("B.S.I.");
-
         }};
-
+        int animalNaoEncontrado = 0;
         for (int i =0; i < ANIMAIS.size();i++) {
             if (ssid.equals(ANIMAIS.get(i))) {
                 Intent macaco = new Intent(this, Macaco.class);
                 startActivity(macaco);
                 finish();
+            }else{
+                animalNaoEncontrado+=1;
+                if(animalNaoEncontrado == ANIMAIS.size()) {
+                    Toast.makeText(this, "Redes cadastradas não encontradas dentre as redes atuais. :(", Toast.LENGTH_SHORT).show();
+                    Intent voltar = new Intent(this, MainActivity.class);
+                    startActivity(voltar);
+                    finish();
+                }
             }
         }
     }

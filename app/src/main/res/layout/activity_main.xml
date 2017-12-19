@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             android:onClick="printScan"
-            android:text="@string/print_scan"
+            android:text="@string/resultados"
             />
     </LinearLayout>
 

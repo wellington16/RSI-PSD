@@ -13,5 +13,6 @@
         android:layout_marginTop="40dp"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/monkey"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints" />
 </android.support.constraint.ConstraintLayout>

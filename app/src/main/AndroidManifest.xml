@@ -20,8 +20,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PrintScan"
-            android:label="@string/print_scan" />
+            android:name=".Resultados"
+            android:label="@string/resultados" />
         <activity android:name=".Macaco"
             android:label="@string/print_macaco"/>
 
