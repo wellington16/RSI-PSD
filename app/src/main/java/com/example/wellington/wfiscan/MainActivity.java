@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public void printScan(View view){
         Intent printScan = new Intent(this, Resultados.class );
         startActivity(printScan);
+        finish();
     }
 
     public void close(View view){
