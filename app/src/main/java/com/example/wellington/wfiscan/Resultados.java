@@ -35,7 +35,7 @@ public class Resultados extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_print_scan);
+        setContentView(R.layout.activity_main);
 
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wasConnected = wifi.isWifiEnabled();
@@ -117,6 +117,7 @@ public class Resultados extends AppCompatActivity{
         final ArrayList<String> ANIMAIS = new ArrayList<String>(){{
             add("Macaco");
             add("B.S.I.");
+            add("eduroam");
         }};
         int animalNaoEncontrado = 0;
         for (int i =0; i < ANIMAIS.size();i++) {
