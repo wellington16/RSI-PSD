@@ -5,8 +5,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,19 +12,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Resultados"
-            android:label="@string/resultados" />
-        <activity android:name=".Macaco"
-            android:label="@string/print_macaco"/>
+        <activity android:name=".View.Caracara" android:label="@string/tela_caracara" />
+        <activity android:name=".View.Macaco" android:label="@string/tela_macaco"/>
 
+
+        <service android:label="Servico" android:name=".Servico.Servico" android:exported="false">
+        </service>
     </application>
 
 </manifest>
