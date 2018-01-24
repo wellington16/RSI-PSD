@@ -14,8 +14,10 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.wellington.zoomecus.Control.ControlPrincipal;
 import com.example.wellington.zoomecus.Model.ConfiguracaoRede;
 import com.example.wellington.zoomecus.View.Caracara;
+import com.example.wellington.zoomecus.View.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,9 +31,11 @@ import java.util.Objects;
 public class Servico extends Service {
     public ArrayList<Worker> threads = new ArrayList<>();
     private final String TAG = "MyActivity";
-    boolean contador = false;
+    private boolean contador = false;
     private WifiManager wifi;
     private BroadcastReceiver mWifiScanReceiver;
+    private String animalEncontrado = "";
+    ControlPrincipal controlPrincipal = new ControlPrincipal();
 
     private ArrayList<ConfiguracaoRede> SSID = new ArrayList<>();
 
@@ -61,11 +65,14 @@ public class Servico extends Service {
     @Override
     public int onStartCommand(Intent intent, int flag, int startId)
     {
+
         Log.i("Script", "onStartCommand");
         Worker worker = new Worker(startId);
         worker.start();
         threads.add(worker);
 //        return (START_REDELIVER_INTENT);
+        System.out.println("Start: "+startId);
+        System.out.println("flag: "+flag);
         return (super.onStartCommand(intent,flag,startId));
     }
 
@@ -82,7 +89,7 @@ public class Servico extends Service {
             {
                 try
                 {
-                    Thread.sleep(5000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e)
                 {
                     Log.i("Script","ERRO grave no Worker:" + e);
@@ -94,7 +101,8 @@ public class Servico extends Service {
                 }
             }
             stopSelf(startId);
-            Log.i("Script", "stopself ");
+            SSID.clear();
+            Log.i("Script", "stopself " + startId);
         }
     }
 
@@ -155,13 +163,15 @@ public class Servico extends Service {
         Log.i(TAG,"Started Scanning");
     }
 
-    String animalEncontrado = "";
+
     private void chamarTelas(ConfiguracaoRede maiorElemento, ArrayList<String> ANIMAIS)
     {
         System.out.println(maiorElemento.getRssid());
         Log.i(TAG,"MAC: "+ maiorElemento.getBssid());
         boolean exist = false;
         String elementoEncontrado = "";
+        MainActivity mainActivity = new MainActivity();
+        Servico servico = new Servico();
 
         for (int i =0; i < ANIMAIS.size();i++)
         {
@@ -172,8 +182,10 @@ public class Servico extends Service {
                 System.out.println("Animal: "+animalEncontrado + " BSSid: "+maiorElemento.getBssid());
                 if (!(animalEncontrado.equals(ANIMAIS.get(i))))
                 {
+                    if(mainActivity.getBaseContext() == (servico.getBaseContext()))
                     animalEncontrado= elementoEncontrado;
                     escolherTela(elementoEncontrado);
+                    break;
                 }
             }
         }
@@ -189,8 +201,10 @@ public class Servico extends Service {
         switch (bssid)
         {
             case "eduroam":
+
                 Intent caracara = new Intent(this, Caracara.class);
-                startActivity(caracara);
+                controlPrincipal.startActivitys(this, caracara);
+//                startActivity(caracara);
                 break;
             case "Eduroam":
                 Intent caracara1 = new Intent(this, Caracara.class);
@@ -201,18 +215,20 @@ public class Servico extends Service {
                 startActivity(Macaco);
                 break;
             case "c8:3a:35:5b:3f:08":
-                //B.S.I.
+                //#FORATEMER
                 Intent caracara2 = new Intent(this, Caracara.class);
-                startActivity(caracara2);
+                controlPrincipal.startActivitys(this, caracara2);
+//                startActivity(caracara2);
                 break;
             case "ReidoPES":
                 Intent Macaco1 = new Intent(this, com.example.wellington.zoomecus.View.Macaco.class);
                 startActivity(Macaco1);
                 break;
             case "a0:f3:c1:a3:c3:e8":
-                //#FORATEMER
+                //B.S.I.
                 Intent Macaco2 = new Intent(this, com.example.wellington.zoomecus.View.Macaco.class);
-                startActivity(Macaco2);
+                controlPrincipal.startActivitys(this, Macaco2);
+//                startActivity(Macaco2);
                 break;
 
             default: break;

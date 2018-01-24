@@ -1,6 +1,5 @@
 package com.example.wellington.zoomecus.View;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
@@ -9,13 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.wellington.zoomecus.Control.ControlPrincipal;
 import com.example.wellington.zoomecus.R;
 import com.example.wellington.zoomecus.Servico.Servico;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MyActivity";
+//    private static final String TAG = "MyActivity";
+    ControlPrincipal controlPrincipal = new ControlPrincipal();
 
     Button iniciar;
     Button sair;
@@ -43,25 +45,29 @@ public class MainActivity extends AppCompatActivity {
     public View.OnClickListener iniciarServico = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+
             Intent intent = new Intent(getApplication(), Servico.class);
-            startService(intent);
+            controlPrincipal.controlStartMain(getApplication(),intent);
+            Toast.makeText(getApplication(),"Aguarde... ;)", Toast.LENGTH_SHORT).show();
         }
     };
     public View.OnClickListener pararServico = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getApplication(), Servico.class);
-            boolean result = stopService(intent);
-            Log.i("Script", ""+result);
-            if (result || !result){
-                MainActivity.this.finish();
-            }
+            boolean result = controlPrincipal.controlStopMain(getApplication(),intent);
+            onBackPressed(result);
         }
     };
 
-    @Override
-    public void onBackPressed() {
-//        super.onBackPressed();
-        this.finish();
+
+    public void onBackPressed(Boolean result ) {
+
+        Log.i("Script", ""+result);
+        if (result || !result){
+            MainActivity.this.finish();
+        }
+
     }
 }
