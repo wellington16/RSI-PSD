@@ -1,10 +1,10 @@
-package com.example.wellington.wfiscan.View;
+package com.example.wellington.zoomecus.View;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.wellington.wfiscan.R;
+import com.example.wellington.zoomecus.R;
 
 public class Macaco extends AppCompatActivity {
 
@@ -21,4 +21,11 @@ public class Macaco extends AppCompatActivity {
         intent.putExtra("EXIT", true);
         startActivity(intent);
     }
+
+//    @Override
+//    public void onDestroy(){
+//        Intent intent = new Intent(getApplication(), Servico.class);
+//        stopService(intent);
+//        super.onDestroy();
+//    }
 }

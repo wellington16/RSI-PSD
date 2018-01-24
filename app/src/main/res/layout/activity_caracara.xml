@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.wellington.wfiscan.View.Caracara">
+    tools:context="com.example.wellington.zoomecus.View.Caracara">
 
 
     <ImageView

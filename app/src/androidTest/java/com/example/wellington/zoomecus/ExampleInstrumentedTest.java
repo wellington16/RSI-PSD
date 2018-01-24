@@ -1,4 +1,4 @@
-package com.example.wellington.wfiscan;
+package com.example.wellington.zoomecus;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

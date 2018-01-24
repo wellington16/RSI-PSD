@@ -1,31 +1,36 @@
 <resources>
-    <string name="app_name">WIFIScan</string>
+    <string name="app_name">ZooMecus</string>
     <string name="resultados">Resultados da Rede</string>
     <string name="close">Close</string>
+
+    <!--Descrição dos animais-->
+    <string name="nome_cient_fico">Nome científico:</string>
+    <string name="h_bito">Hábito:</string>
+    <string name="distribui_o_geogr_fica">Distribuição geográfica:</string>
+    <string name="alimenta_o">Alimentação:</string>
+    <string name="gesta_o">Gestação:</string>
+    <string name="amea_ado_de_extin_o">Ameaçado de extinção</string>
+
+
 
     <!--Tela caracara-->
     <string name="tela_caracara">Carcará</string>
     <string name="do_sul_do_eua_at_a_argentina_em_v_rios_ecossistemas">Do sul do EUA até a Argentina, em vários ecossistemas.</string>
-    <string name="distribui_o_geogr_fica">Distribuição geográfica:</string>
     <string name="diurno">Diurno</string>
-    <string name="h_bito">Hábito:</string>
     <string name="postura_de_2_ovos_com_incuba_o_de_28_a_32_dias">Postura de 2 ovos, com incubação de 28 a 32 dias.</string>
-    <string name="gesta_o">Gestação:</string>
     <string name="caracara_planus">Caracara plancus</string>
-    <string name="nome_cient_fico">Nome científico:</string>
-    <string name="amea_ado_de_extin_o">Ameaçado de extinção</string>
-    <string name="alimenta_o">Alimentação:</string>
-
     <string name="on_vora_alimenta_se_de_quase_tudo_o_que_encontra_al_m_de_animais_vivos_ou_mortos">Onívora (alimenta-se de quase tudo o que encontra, além de animais vivos ou mortos).</string>
 
     <!--Tela macaco-->
     <string name="tela_macaco">Chimpanzé</string>
     <string name="pan_troglodytes">Pan troglodytes</string>
-    <string name="diruno_vive_em_bandos">Diruno; vive em bandos.</string>
+    <string name="diruno_vive_em_bandos">Diurno; vive em bandos.</string>
     <string name="frica_florestas_e_savanas">África (Florestas e Savanas).</string>
     <string name="on_voro_frutos_folhas_florestas_sementes_resina_mel_insetos_ovos_e_pequenos_mam_feros">Onívoro (frutos, folhas, florestas,sementes,resina,mel, insetos,ovos e pequenos mamíferos).</string>
     <string name="gesta_o_de_227_a_232_dias">Gestação de 227 a 232 dias.</string>
-    <string name="sejam_bem_vindos">Sejam Bem-vindos</string>
+
+    <!--Tela principal-->
+    <string name="sejam_bem_vindos">Sejam bem-vindos!</string>
     <string name="sair">Sair</string>
     <string name="iniciar">Iniciar</string>
     <string name="todo">TODO</string>
