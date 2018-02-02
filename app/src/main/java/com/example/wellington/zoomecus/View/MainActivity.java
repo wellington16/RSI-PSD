@@ -10,14 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.wellington.zoomecus.Control.ControlPrincipal;
+import com.example.wellington.zoomecus.Control.ControlePrincipal;
 import com.example.wellington.zoomecus.R;
-import com.example.wellington.zoomecus.Servico.Servico;
+import com.example.wellington.zoomecus.Service.Service;
 
 public class MainActivity extends AppCompatActivity {
 
 //    private static final String TAG = "MyActivity";
-    ControlPrincipal controlPrincipal = new ControlPrincipal();
+    ControlePrincipal controlePrincipal = new ControlePrincipal();
 
     Button iniciar;
     Button sair;
@@ -47,16 +47,16 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
 
 
-            Intent intent = new Intent(getApplication(), Servico.class);
-            controlPrincipal.controlStartMain(getApplication(),intent);
+            Intent intent = new Intent(getApplication(), Service.class);
+            controlePrincipal.controlStartMain(getApplication(),intent);
             Toast.makeText(getApplication(),"Aguarde... ;)", Toast.LENGTH_SHORT).show();
         }
     };
     public View.OnClickListener pararServico = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getApplication(), Servico.class);
-            boolean result = controlPrincipal.controlStopMain(getApplication(),intent);
+            Intent intent = new Intent(getApplication(), Service.class);
+            boolean result = controlePrincipal.controlStopMain(getApplication(),intent);
             onBackPressed(result);
         }
     };

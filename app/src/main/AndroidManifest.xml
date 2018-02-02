@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,7 +25,7 @@
         <activity android:name=".View.Macaco" android:label="@string/tela_macaco"/>
 
 
-        <service android:label="Servico" android:name=".Servico.Servico" android:exported="false">
+        <service android:label="Servico" android:name=".Service.Service" android:exported="false">
         </service>
     </application>
 

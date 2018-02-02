@@ -1,6 +1,5 @@
-package com.example.wellington.zoomecus.Servico;
+package com.example.wellington.zoomecus.Service;
 
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,13 +7,15 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.wellington.zoomecus.Control.ControlPrincipal;
+import com.example.wellington.zoomecus.Control.ControlePrincipal;
 import com.example.wellington.zoomecus.Model.ConfiguracaoRede;
 import com.example.wellington.zoomecus.View.Caracara;
 import com.example.wellington.zoomecus.View.MainActivity;
@@ -28,26 +29,23 @@ import java.util.Objects;
  * Created by wellington on 18/01/18.
  */
 
-public class Servico extends Service {
+public class Service extends android.app.Service {
     public ArrayList<Worker> threads = new ArrayList<>();
     private final String TAG = "MyActivity";
     private boolean contador = false;
     private WifiManager wifi;
     private BroadcastReceiver mWifiScanReceiver;
     private String animalEncontrado = "";
-    ControlPrincipal controlPrincipal = new ControlPrincipal();
+    private Boolean contExit = true;
+
+    private ControlePrincipal controlePrincipal = new ControlePrincipal();
 
     private ArrayList<ConfiguracaoRede> SSID = new ArrayList<>();
 
     final ArrayList<String> ANIMAIS = new ArrayList<String>()
     {{
-        add("Macaco");
-        add("c8:3a:35:5b:3f:08");
-        add("ReidoPES");
-        add("Eduroam");
-        add("eduroam");
-        add("a0:f3:c1:a3:c3:e8");
-        add("Uai-fai");
+        add("12:13:14:15:09:10");
+        add("ec:10:12:14:09:00");
     }};
 
     @Nullable
@@ -56,12 +54,6 @@ public class Servico extends Service {
         return null;
     }
 
-    @Override
-    public void onCreate()
-    {
-        super.onCreate();
-        Log.i("Script", "onCreate");
-    }
     @Override
     public int onStartCommand(Intent intent, int flag, int startId)
     {
@@ -75,7 +67,7 @@ public class Servico extends Service {
         System.out.println("flag: "+flag);
         return (super.onStartCommand(intent,flag,startId));
     }
-
+    int encerra = 500;
     private class Worker extends Thread
     {
         private int startId;
@@ -98,6 +90,7 @@ public class Servico extends Service {
                 {
                     scanAndShow();
                     Log.i("Script", "Metodo Iniciado: ");
+
                 }
             }
             stopSelf(startId);
@@ -144,15 +137,13 @@ public class Servico extends Service {
                         configuracaoRede.setLevel(mScanResults.get(i).level);
                         configuracaoRede.setBssid(mScanResults.get(i).BSSID);
                         configuracaoRede.setRssid(mScanResults.get(i).SSID);
-
                         SSID.add(configuracaoRede);
+
+                        Log.i(TAG,"Nome da rede: " + mScanResults.get(i).SSID);
+                        Log.i(TAG,"MAC: " + mScanResults.get(i).BSSID);
                     }
 
                     ConfiguracaoRede  maiorElemento = Collections.max(SSID);
-
-                    System.out.println(maiorElemento.getBssid());
-                    System.out.println(maiorElemento.getLevel());
-                    System.out.println(maiorElemento.getRssid());
                     chamarTelas(maiorElemento, ANIMAIS);
                 }
             }
@@ -169,10 +160,9 @@ public class Servico extends Service {
         System.out.println(maiorElemento.getRssid());
         Log.i(TAG,"MAC: "+ maiorElemento.getBssid());
         boolean exist = false;
-        String elementoEncontrado = "";
+        String elementoEncontrado;
         MainActivity mainActivity = new MainActivity();
-        Servico servico = new Servico();
-
+        Service service = new Service();
         for (int i =0; i < ANIMAIS.size();i++)
         {
             if (maiorElemento.getBssid().equals(ANIMAIS.get(i)))
@@ -182,7 +172,7 @@ public class Servico extends Service {
                 System.out.println("Animal: "+animalEncontrado + " BSSid: "+maiorElemento.getBssid());
                 if (!(animalEncontrado.equals(ANIMAIS.get(i))))
                 {
-                    if(mainActivity.getBaseContext() == (servico.getBaseContext()))
+                    if(mainActivity.getBaseContext() == (service.getBaseContext()))
                     animalEncontrado= elementoEncontrado;
                     escolherTela(elementoEncontrado);
                     break;
@@ -191,8 +181,11 @@ public class Servico extends Service {
         }
         if (!exist)
         {
-            Toast.makeText(getApplicationContext(),"Animal " +
-                    "não encontrado",Toast.LENGTH_SHORT ).show();
+            if (contExit) {
+                Toast.makeText(getApplicationContext(), "Animal " +
+                        "não encontrado", Toast.LENGTH_SHORT).show();
+                contExit= false;
+            }
         }
     }
 
@@ -200,38 +193,25 @@ public class Servico extends Service {
     {
         switch (bssid)
         {
-            case "eduroam":
-
-                Intent caracara = new Intent(this, Caracara.class);
-                controlPrincipal.startActivitys(this, caracara);
-//                startActivity(caracara);
-                break;
-            case "Eduroam":
+            case "12:13:14:15:09:10":
+                //TrojanHorse
                 Intent caracara1 = new Intent(this, Caracara.class);
+                vibrar();
                 startActivity(caracara1);
                 break;
-            case "Macaco":
+            case "ec:10:12:14:09:00":
+                //Macaco
                 Intent Macaco = new Intent(this, com.example.wellington.zoomecus.View.Macaco.class);
+                vibrar();
                 startActivity(Macaco);
                 break;
-            case "c8:3a:35:5b:3f:08":
-                //#FORATEMER
-                Intent caracara2 = new Intent(this, Caracara.class);
-                controlPrincipal.startActivitys(this, caracara2);
-//                startActivity(caracara2);
-                break;
-            case "ReidoPES":
-                Intent Macaco1 = new Intent(this, com.example.wellington.zoomecus.View.Macaco.class);
-                startActivity(Macaco1);
-                break;
-            case "a0:f3:c1:a3:c3:e8":
-                //B.S.I.
-                Intent Macaco2 = new Intent(this, com.example.wellington.zoomecus.View.Macaco.class);
-                controlPrincipal.startActivitys(this, Macaco2);
-//                startActivity(Macaco2);
-                break;
-
             default: break;
         }
+    }
+    private void vibrar()
+    {
+        Vibrator vibra = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        long milliseconds = 1000;//'1000' é o tempo em milissegundos, é basicamente o tempo de duração da vibração. portanto, quanto maior este numero, mais tempo de vibração você irá ter
+        vibra.vibrate(milliseconds);
     }
 }

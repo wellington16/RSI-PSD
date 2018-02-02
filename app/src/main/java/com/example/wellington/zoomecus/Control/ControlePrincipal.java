@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.example.wellington.zoomecus.Servico.Servico;
-
 /**
  * Created by wellington on 24/01/18.
  */
 
-public class ControlPrincipal extends AppCompatActivity {
+public class ControlePrincipal extends AppCompatActivity {
     
         public void controlStartMain (Context context, Intent intent)
         {

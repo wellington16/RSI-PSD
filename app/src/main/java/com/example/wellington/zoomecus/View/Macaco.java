@@ -24,7 +24,7 @@ public class Macaco extends AppCompatActivity {
 
 //    @Override
 //    public void onDestroy(){
-//        Intent intent = new Intent(getApplication(), Servico.class);
+//        Intent intent = new Intent(getApplication(), Service.class);
 //        stopService(intent);
 //        super.onDestroy();
 //    }

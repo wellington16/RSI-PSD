@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.wellington.zoomecus.R;
-import com.example.wellington.zoomecus.Servico.Servico;
+import com.example.wellington.zoomecus.Service.Service;
 
 public class Caracara extends AppCompatActivity {
 
@@ -24,7 +24,7 @@ public class Caracara extends AppCompatActivity {
 
     @Override
     public void onDestroy(){
-        Intent intent = new Intent(getApplication(), Servico.class);
+        Intent intent = new Intent(getApplication(), Service.class);
         stopService(intent);
         super.onDestroy();
     }
