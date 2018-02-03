@@ -10,21 +10,17 @@ import android.util.Log;
  */
 
 public class ControlePrincipal extends AppCompatActivity {
-    
-        public void controlStartMain (Context context, Intent intent)
-        {
-            context.startService(intent);
-        }
 
-        public boolean controlStopMain (Context context, Intent intent)
-        {
-            boolean result = context.stopService(intent);
-            Log.i("Control ", ""+result);
-            return result;
-        }
+    public void controlStartMain (Context context, Intent intent)
+    {
+        context.startService(intent);
+    }
 
-        public void startActivitys(Context context, Intent intent)
-        {
-            context.startActivity(intent);
-        }
+    public boolean controlStopMain (Context context, Intent intent)
+    {
+        boolean result = context.stopService(intent);
+        Log.i("Control ", ""+result);
+        return result;
+    }
+
 }

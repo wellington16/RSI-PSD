@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
@@ -32,13 +31,11 @@ import java.util.Objects;
 public class Service extends android.app.Service {
     public ArrayList<Worker> threads = new ArrayList<>();
     private final String TAG = "MyActivity";
-    private boolean contador = false;
     private WifiManager wifi;
     private BroadcastReceiver mWifiScanReceiver;
     private String animalEncontrado = "";
     private Boolean contExit = true;
-
-    private ControlePrincipal controlePrincipal = new ControlePrincipal();
+    ControlePrincipal controlePrincipal =  new ControlePrincipal();
 
     private ArrayList<ConfiguracaoRede> SSID = new ArrayList<>();
 
@@ -62,14 +59,12 @@ public class Service extends android.app.Service {
         Worker worker = new Worker(startId);
         worker.start();
         threads.add(worker);
-//        return (START_REDELIVER_INTENT);
-        System.out.println("Start: "+startId);
-        System.out.println("flag: "+flag);
         return (super.onStartCommand(intent,flag,startId));
     }
-    int encerra = 500;
+
     private class Worker extends Thread
     {
+        private boolean valida = true;
         private int startId;
         private boolean ativo = true;
         private Worker(int startId) {
@@ -81,38 +76,43 @@ public class Service extends android.app.Service {
             {
                 try
                 {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
+                    scanAndShow();
+
                 } catch (InterruptedException e)
                 {
                     Log.i("Script","ERRO grave no Worker:" + e);
                 }
-                if(!contador)
-                {
-                    scanAndShow();
-                    Log.i("Script", "Metodo Iniciado: ");
+//                if(valida) {
+//                    scanAndShow();
+//                }else {
+//                    break;
+//                }
 
-                }
             }
             stopSelf(startId);
             SSID.clear();
             Log.i("Script", "stopself " + startId);
+            wifi.setWifiEnabled(true);
+
         }
     }
 
     @Override
     public void onDestroy()
     {
-        super.onDestroy();
+        wifi.setWifiEnabled(false);
         pararServico();
-        Log.i("Script", "ondestroy ");
-        contador = true;
+        Log.i("Script", "onDestroy ");
+        super.onDestroy();
     }
 
-    private void pararServico()
+    public void pararServico()
     {
         for(int i = 0, tam = threads.size(); i< tam; i++)
         {
             threads.get(i).ativo = false;
+            Log.i("Script", "Apagando todas as threads ");
         }
     }
 
@@ -142,7 +142,7 @@ public class Service extends android.app.Service {
                         Log.i(TAG,"Nome da rede: " + mScanResults.get(i).SSID);
                         Log.i(TAG,"MAC: " + mScanResults.get(i).BSSID);
                     }
-
+                    mScanResults.clear();
                     ConfiguracaoRede  maiorElemento = Collections.max(SSID);
                     chamarTelas(maiorElemento, ANIMAIS);
                 }
@@ -169,21 +169,26 @@ public class Service extends android.app.Service {
             {
                 elementoEncontrado = maiorElemento.getBssid();
                 exist = true;
-                System.out.println("Animal: "+animalEncontrado + " BSSid: "+maiorElemento.getBssid());
+                Log.i(TAG,"Animal: "+animalEncontrado + " BSSid: "+maiorElemento.getBssid());
+                Log.i(TAG,"Animal: "+animalEncontrado + " RSSID: "+maiorElemento.getLevel());
                 if (!(animalEncontrado.equals(ANIMAIS.get(i))))
                 {
                     if(mainActivity.getBaseContext() == (service.getBaseContext()))
-                    animalEncontrado= elementoEncontrado;
-                    escolherTela(elementoEncontrado);
-                    break;
+                    {
+                        animalEncontrado = elementoEncontrado;
+                        escolherTela(elementoEncontrado);
+                        break;
+                    }
                 }
             }
         }
         if (!exist)
         {
-            if (contExit) {
+            if (contExit)
+            {
                 Toast.makeText(getApplicationContext(), "Animal " +
-                        "não encontrado", Toast.LENGTH_SHORT).show();
+                        "não encontrado", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplication(),"Aguarde, pois estou tentando encontrar algum animal.", Toast.LENGTH_LONG).show();
                 contExit= false;
             }
         }
@@ -194,13 +199,13 @@ public class Service extends android.app.Service {
         switch (bssid)
         {
             case "12:13:14:15:09:10":
-                //TrojanHorse
+                Log.i(TAG,"Mudando para carcara " );
                 Intent caracara1 = new Intent(this, Caracara.class);
                 vibrar();
                 startActivity(caracara1);
                 break;
             case "ec:10:12:14:09:00":
-                //Macaco
+                Log.i(TAG,"Mudando para macaco " );
                 Intent Macaco = new Intent(this, com.example.wellington.zoomecus.View.Macaco.class);
                 vibrar();
                 startActivity(Macaco);
